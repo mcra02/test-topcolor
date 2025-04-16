@@ -15,6 +15,7 @@ services:
     environment:
       - SUBDOMAIN=${SUBDOMAIN:-topcolor}
       - DOMAIN=${DOMAIN:-cebralab.com}
+    command: /bin/sh -c "envsubst '$$SUBDOMAIN $$DOMAIN' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
     networks:
       - uvm-network
 
