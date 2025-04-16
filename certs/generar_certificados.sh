@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuración
-SUBDOMAIN="dev"
+SUBDOMAIN="topcolor"
 DOMAIN="cebralab.com"
 FULL_DOMAIN="${SUBDOMAIN}.${DOMAIN}"
 EMAIL="admin@${DOMAIN}"
