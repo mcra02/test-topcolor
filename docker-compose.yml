@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: uvm-integration-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./certs:/etc/nginx/certs
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    environment:
+      - SUBDOMAIN=${SUBDOMAIN:-topcolor}
+      - DOMAIN=${DOMAIN:-cebralab.com}
+    networks:
+      - uvm-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: uvm-integration-api:latest
+    container_name: uvm-integration-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - HUBSPOT_API_KEY=${HUBSPOT_API_KEY}
+      - DEBUG=False
+      - SUBDOMAIN=${SUBDOMAIN:-topcolor}
+      - DOMAIN=${DOMAIN:-cebralab.com}
+    volumes:
+      - .:/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - uvm-network
+    depends_on:
+      - nginx
+
+networks:
+  uvm-network:
+    driver: bridge 
