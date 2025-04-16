@@ -30,8 +30,6 @@ services:
     environment:
       - HUBSPOT_API_KEY=${HUBSPOT_API_KEY}
       - DEBUG=False
-      - SUBDOMAIN=${SUBDOMAIN:-topcolor}
-      - DOMAIN=${DOMAIN:-cebralab.com}
     volumes:
       - .:/app
     healthcheck:
