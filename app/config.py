@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     version: str = "1.0.0"
     hubspot_api_key: str
     http_host: str = "http://localhost:8000"  # Default development host
+    subdomain: str = "topcolor"
+    domain: str = "cebralab.com"
 
     beca_object_id: str = "2-43416319"
 
